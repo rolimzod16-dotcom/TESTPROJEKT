@@ -4,9 +4,11 @@ import {
   subscribeToPushNotifications,
 } from "@/lib/push-client";
 import {
+  getNativeNotificationStatus,
   isNativeNotificationsAvailable,
   requestNativeNotificationPermission,
   scheduleReportReminders,
+  sendTestNotification,
   setupNativeNotificationListeners,
 } from "@/lib/native-notifications";
 
@@ -14,14 +16,18 @@ export type NotificationSetupResult = {
   webPush: "enabled" | "unsupported" | "denied" | "failed";
   nativeReminders: "scheduled" | "unsupported" | "denied" | "failed";
   message: string;
+  testSent?: boolean;
 };
 
-export async function enableAllNotifications(hiveName?: string): Promise<NotificationSetupResult> {
+export async function enableAllNotifications(
+  hiveName?: string,
+): Promise<NotificationSetupResult> {
   let webPush: NotificationSetupResult["webPush"] = "unsupported";
   let nativeReminders: NotificationSetupResult["nativeReminders"] = "unsupported";
+  let testSent = false;
 
   await registerServiceWorker();
-  void setupNativeNotificationListeners();
+  await setupNativeNotificationListeners();
 
   if (isPushSupported()) {
     try {
@@ -39,6 +45,7 @@ export async function enableAllNotifications(hiveName?: string): Promise<Notific
       if (permission === "granted") {
         const result = await scheduleReportReminders(hiveName);
         nativeReminders = result.scheduled > 0 ? "scheduled" : "failed";
+        testSent = await sendTestNotification(hiveName);
       } else {
         nativeReminders = "denied";
       }
@@ -47,26 +54,43 @@ export async function enableAllNotifications(hiveName?: string): Promise<Notific
     }
   }
 
-  const message = buildSetupMessage(webPush, nativeReminders);
+  const message = buildSetupMessage(webPush, nativeReminders, testSent);
 
-  return { webPush, nativeReminders, message };
+  return { webPush, nativeReminders, message, testSent };
+}
+
+export async function getNotificationDiagnostics() {
+  const native = await getNativeNotificationStatus();
+  const webPermission =
+    typeof Notification !== "undefined" ? Notification.permission : "unsupported";
+
+  return {
+    native,
+    webPermission,
+    webPushSupported: isPushSupported(),
+  };
 }
 
 function buildSetupMessage(
   webPush: NotificationSetupResult["webPush"],
   nativeReminders: NotificationSetupResult["nativeReminders"],
+  testSent: boolean,
 ) {
-  if (webPush === "enabled" && nativeReminders === "scheduled") {
-    return "Уведомления включены. Push + напоминания каждый час, даже если приложение закрыто.";
+  const testNote = testSent
+    ? " Тестовое уведомление отправлено — проверьте шторку."
+    : "";
+
+  if (nativeReminders === "scheduled" && webPush === "enabled") {
+    return `Уведомления включены полностью.${testNote}`;
   }
   if (nativeReminders === "scheduled") {
-    return "Напоминания каждый час включены в APK. Отчёты приходят даже при закрытом приложении.";
+    return `APK-уведомления включены. Напоминания каждый час, даже если приложение закрыто.${testNote}`;
   }
   if (webPush === "enabled") {
-    return "Push включён. Уведомления будут приходить при новых отчётах.";
+    return "Web push включён. Для APK лучше разрешить уведомления в настройках Android.";
   }
   if (webPush === "denied" || nativeReminders === "denied") {
-    return "Разрешите уведомления в настройках телефона для HiveMonitor.";
+    return "Разрешите уведомления: Настройки → Приложения → HiveMonitor → Уведомления → Вкл.";
   }
-  return "Не удалось включить уведомления. Попробуйте снова или проверьте настройки Android.";
+  return "Не удалось включить уведомления. Откройте настройки Android и разрешите их вручную.";
 }

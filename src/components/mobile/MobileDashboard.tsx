@@ -8,6 +8,7 @@ import { MobileShell } from "@/components/mobile/MobileShell";
 import { describeHiveStatusFromReadings } from "@/lib/simulator-realistic";
 import { REPORT_INTERVAL_MS } from "@/lib/report-schedule";
 import { showNativeReportNotification } from "@/lib/native-notifications";
+import { NotificationKeepAlive } from "@/components/mobile/NotificationKeepAlive";
 
 type Report = {
   id: string;
@@ -125,6 +126,7 @@ export function MobileDashboard({ userName, hive }: MobileDashboardProps) {
       onTabChange={setTab}
     >
       <InstallBanner />
+      <NotificationKeepAlive hiveName={hive.name} />
       <PushNotificationPrompt hiveName={hive.name} />
 
       <div className="mb-4 flex items-center justify-between">
