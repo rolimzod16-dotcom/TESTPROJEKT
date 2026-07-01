@@ -2,36 +2,39 @@ import {
   createHiveWithEsp32,
   createReport,
   getAllHives,
-  getLastReport,
+  getRecentReports,
 } from "@/lib/hives";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { publishReport } from "./events";
 import { sendReportPush } from "./push-server";
-
-function randomInRange(min: number, max: number, decimals = 1) {
-  const value = min + Math.random() * (max - min);
-  const factor = 10 ** decimals;
-  return Math.round(value * factor) / factor;
-}
+import {
+  describeHiveStatus,
+  generateRealisticSensorData,
+} from "./simulator-realistic";
 
 function generateDeviceId() {
   const suffix = Math.random().toString(36).slice(2, 8).toUpperCase();
   return `ESP32-${suffix}`;
 }
 
+/** @deprecated используй generateRealisticSensorData */
 export function generateSensorData(previousWeight?: number) {
-  const weight =
-    previousWeight !== undefined
-      ? randomInRange(previousWeight - 0.3, previousWeight + 0.5, 2)
-      : randomInRange(18, 32, 2);
-
-  return {
-    temperature: randomInRange(32, 36, 1),
-    humidity: randomInRange(45, 70, 1),
-    weight: Math.max(10, weight),
-    soundLevel: randomInRange(38, 62, 1),
-    batteryPercent: randomInRange(72, 100, 0),
-  };
+  const data = generateRealisticSensorData({
+    lastReport: previousWeight
+      ? {
+          id: "",
+          hiveId: "",
+          temperature: 35,
+          humidity: 58,
+          weight: previousWeight,
+          soundLevel: 48,
+          batteryPercent: 90,
+          createdAt: new Date().toISOString(),
+        }
+      : null,
+    recentReports: [],
+  });
+  return data;
 }
 
 export async function provisionHiveForUser(userId: string, userName: string) {
@@ -45,18 +48,32 @@ export async function provisionHiveForUser(userId: string, userName: string) {
 }
 
 export async function createReportForHive(hiveId: string, userId: string) {
-  const lastReport = await getLastReport(hiveId);
-  const data = generateSensorData(lastReport?.weight);
+  const recentReports = await getRecentReports(hiveId, 12);
+  const data = generateRealisticSensorData({
+    lastReport: recentReports[0] ?? null,
+    recentReports,
+  });
 
   const report = await createReport({
     hiveId,
-    ...data,
+    temperature: data.temperature,
+    humidity: data.humidity,
+    weight: data.weight,
+    soundLevel: data.soundLevel,
+    batteryPercent: data.batteryPercent,
   });
 
   publishReport(userId, report);
-  void sendReportPush(userId, report).catch((err) =>
+  void sendReportPush(userId, report, data.scenario).catch((err) =>
     console.error("[push] report notify failed:", err),
   );
+
+  if (process.env.NODE_ENV === "development") {
+    console.log(
+      `[simulator] ${hiveId.slice(0, 8)}… ${data.scenario} — ${describeHiveStatus(data)}`,
+    );
+  }
+
   return report;
 }
 
@@ -104,6 +121,8 @@ export function startSimulator() {
   }, intervalMs);
 
   console.log(
-    `[simulator] local mode started (interval: ${intervalMs / 1000 / 60} min)`,
+    `[simulator] realistic mode started (interval: ${intervalMs / 1000 / 60} min)`,
   );
 }
+
+export { describeHiveStatus, generateRealisticSensorData };

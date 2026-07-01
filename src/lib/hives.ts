@@ -117,6 +117,19 @@ export async function getLastReport(hiveId: string) {
   return data ? mapReport(data as DbReport) : null;
 }
 
+export async function getRecentReports(hiveId: string, limit = 12) {
+  const supabase = requireSupabase();
+  const { data, error } = await supabase
+    .from("reports")
+    .select("*")
+    .eq("hive_id", hiveId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) throw error;
+  return ((data ?? []) as DbReport[]).map(mapReport);
+}
+
 export async function createReport(input: {
   hiveId: string;
   temperature: number;

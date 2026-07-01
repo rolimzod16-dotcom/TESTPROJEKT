@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { InstallBanner } from "@/components/mobile/InstallBanner";
 import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
 import { MobileShell } from "@/components/mobile/MobileShell";
+import { describeHiveStatusFromReadings } from "@/lib/simulator-realistic";
 
 type Report = {
   id: string;
@@ -149,6 +150,11 @@ export function MobileDashboard({ userName, hive }: MobileDashboardProps) {
               Личный улей
             </p>
             <p className="mt-1 text-sm text-stone-500">{nextReportHint}</p>
+            {latest && (
+              <p className="mt-2 text-sm font-medium text-amber-800">
+                {describeHiveStatusFromReadings(latest)}
+              </p>
+            )}
             {latest ? (
               <div className="mt-4 grid grid-cols-2 gap-3">
                 {[

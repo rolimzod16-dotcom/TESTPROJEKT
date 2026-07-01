@@ -40,7 +40,11 @@ export async function savePushSubscription(
   if (error) throw error;
 }
 
-export async function sendReportPush(userId: string, report: Report) {
+export async function sendReportPush(
+  userId: string,
+  report: Report,
+  scenario?: string,
+) {
   const vapid = getVapidConfig();
   if (!vapid) return { sent: 0, skipped: "vapid_not_configured" };
 
@@ -55,9 +59,10 @@ export async function sendReportPush(userId: string, report: Report) {
 
   webpush.setVapidDetails(vapid.subject, vapid.publicKey, vapid.privateKey);
 
+  const scenarioNote = scenario ? ` · ${scenario}` : "";
   const payload = JSON.stringify({
     title: "🐝 Новый отчёт от улья",
-    body: `T: ${report.temperature}°C · влажность ${report.humidity}% · вес ${report.weight} кг`,
+    body: `T: ${report.temperature}°C · ${report.humidity}% · ${report.weight} кг${scenarioNote}`,
     url: "/app/dashboard",
   });
 

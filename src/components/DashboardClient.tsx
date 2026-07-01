@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { InstallBanner } from "@/components/mobile/InstallBanner";
 import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
+import { describeHiveStatusFromReadings } from "@/lib/simulator-realistic";
 
 type Report = {
   id: string;
@@ -186,6 +187,11 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
                   {hive.name}
                 </h2>
                 <p className="mt-2 text-sm text-stone-600">{nextReportHint}</p>
+                {latest && (
+                  <p className="mt-2 text-sm font-medium text-amber-800">
+                    {describeHiveStatusFromReadings(latest)}
+                  </p>
+                )}
               </div>
               <div className="rounded-2xl bg-amber-100 px-4 py-3 text-center">
                 <p className="text-xs uppercase tracking-wide text-amber-800">
