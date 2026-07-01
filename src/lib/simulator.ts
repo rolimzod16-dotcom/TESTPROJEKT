@@ -6,6 +6,7 @@ import {
 } from "@/lib/hives";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { publishReport } from "./events";
+import { sendReportPush } from "./push-server";
 
 function randomInRange(min: number, max: number, decimals = 1) {
   const value = min + Math.random() * (max - min);
@@ -53,6 +54,9 @@ export async function createReportForHive(hiveId: string, userId: string) {
   });
 
   publishReport(userId, report);
+  void sendReportPush(userId, report).catch((err) =>
+    console.error("[push] report notify failed:", err),
+  );
   return report;
 }
 

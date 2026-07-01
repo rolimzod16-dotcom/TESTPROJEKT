@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { InstallBanner } from "@/components/mobile/InstallBanner";
+import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
 
 type Report = {
   id: string;
@@ -169,8 +170,9 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-8">
-        <div className="mb-6 max-w-lg">
+        <div className="mb-6 max-w-lg space-y-0">
           <InstallBanner />
+          <PushNotificationPrompt />
         </div>
 
         <section className="mb-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">

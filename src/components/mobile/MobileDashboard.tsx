@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { InstallBanner } from "@/components/mobile/InstallBanner";
+import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
 import { MobileShell } from "@/components/mobile/MobileShell";
 
 type Report = {
@@ -117,6 +118,7 @@ export function MobileDashboard({ userName, hive }: MobileDashboardProps) {
       onTabChange={setTab}
     >
       <InstallBanner />
+      <PushNotificationPrompt />
 
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs shadow-sm">
