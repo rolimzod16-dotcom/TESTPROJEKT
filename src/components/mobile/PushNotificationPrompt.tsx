@@ -104,8 +104,9 @@ export function PushNotificationPrompt({
     <div className="hm-card mb-4 border-sky-200 bg-gradient-to-br from-sky-50 to-white p-4">
       <p className="font-bold text-sky-900">Уведомления каждый час</p>
       <p className="mt-1 text-sm text-sky-800">
-        В APK нажмите «Включить» и обязательно «Разрешить» в Android. После
-        этого придёт тестовое уведомление в шторку.
+        В APK v1.1 уведомления встроены в Android. При открытии приложения
+        нажмите «Разрешить» — через 2 сек придёт тест в шторку, дальше каждый
+        час автоматически.
       </p>
       {diag && <p className="mt-2 text-xs text-sky-700">{diag}</p>}
       {error && <p className="mt-2 text-sm font-medium text-red-700">{error}</p>}
