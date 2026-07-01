@@ -1,4 +1,4 @@
-const REPORT_INTERVAL_MS = 2 * 60 * 60 * 1000;
+import { REPORT_INTERVAL_MS } from "@/lib/report-schedule";
 const SCHEDULED_COUNT = 24;
 
 type CapacitorLike = {

@@ -85,7 +85,7 @@ export function PushNotificationPrompt({
 
   return (
     <div className="hm-card mb-4 border-sky-200 bg-gradient-to-br from-sky-50 to-white p-4">
-      <p className="font-bold text-sky-900">Уведомления каждые 2 часа</p>
+      <p className="font-bold text-sky-900">Уведомления каждый час</p>
       <p className="mt-1 text-sm text-sky-800">
         Отчёты и push приходят автоматически, даже если приложение закрыто.
         Нажмите «Разрешить» в системе Android.

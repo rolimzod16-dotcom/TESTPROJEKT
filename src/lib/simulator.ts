@@ -105,7 +105,7 @@ export function startSimulator() {
 
   simulatorStarted = true;
 
-  const intervalMs = Number(process.env.REPORT_INTERVAL_MS ?? 7_200_000);
+  const intervalMs = Number(process.env.REPORT_INTERVAL_MS ?? 3_600_000);
 
   const tick = async () => {
     try {

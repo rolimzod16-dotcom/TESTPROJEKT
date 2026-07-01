@@ -57,10 +57,10 @@ function buildSetupMessage(
   nativeReminders: NotificationSetupResult["nativeReminders"],
 ) {
   if (webPush === "enabled" && nativeReminders === "scheduled") {
-    return "Уведомления включены. Push + напоминания каждые 2 часа, даже если приложение закрыто.";
+    return "Уведомления включены. Push + напоминания каждый час, даже если приложение закрыто.";
   }
   if (nativeReminders === "scheduled") {
-    return "Напоминания каждые 2 часа включены в APK. Отчёты приходят даже при закрытом приложении.";
+    return "Напоминания каждый час включены в APK. Отчёты приходят даже при закрытом приложении.";
   }
   if (webPush === "enabled") {
     return "Push включён. Уведомления будут приходить при новых отчётах.";

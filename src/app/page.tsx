@@ -50,14 +50,14 @@ export default async function HomePage() {
         <section className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <p className="mb-4 inline-flex rounded-full bg-amber-100 px-4 py-1.5 text-sm font-medium text-amber-900">
-              Симуляция ESP32 · отчёты каждые 2 часа
+              Симуляция ESP32 · отчёты каждый час
             </p>
             <h1 className="text-5xl font-bold leading-tight text-stone-900">
               Личный улей с умным мониторингом
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-stone-600">
               Регистрируешься — получаешь свой виртуальный улей с ESP32.
-              Симулятор отправляет показания датчиков каждые 2 часа, а на
+              Симулятор отправляет показания датчиков каждый час, а на
               сайте отчёты приходят в реальном времени.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -126,7 +126,7 @@ export default async function HomePage() {
             },
             {
               title: "Симуляция",
-              text: "Каждые 2 часа генерируется отчёт: температура, влажность, вес, шум и заряд батареи.",
+              text: "Каждый час генерируется отчёт: температура, влажность, вес, шум и заряд батареи.",
             },
             {
               title: "Real-time",

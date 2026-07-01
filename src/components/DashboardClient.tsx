@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { InstallBanner } from "@/components/mobile/InstallBanner";
 import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
 import { describeHiveStatusFromReadings } from "@/lib/simulator-realistic";
+import { REPORT_INTERVAL_MS } from "@/lib/report-schedule";
 import { showNativeReportNotification } from "@/lib/native-notifications";
 
 type Report = {
@@ -86,7 +87,7 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
 
   const nextReportHint = useMemo(() => {
     if (!latest) return "Первый отчёт скоро появится";
-    const nextAt = new Date(latest.createdAt).getTime() + 2 * 60 * 60 * 1000;
+    const nextAt = new Date(latest.createdAt).getTime() + REPORT_INTERVAL_MS;
     return `Следующий отчёт ~ ${formatDate(new Date(nextAt).toISOString())}`;
   }, [latest]);
 
@@ -279,7 +280,7 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
               </div>
               <div className="flex justify-between">
                 <dt className="text-stone-400">Интервал отчётов</dt>
-                <dd>каждые 2 часа</dd>
+                <dd>каждый час</dd>
               </div>
             </dl>
             <button
@@ -290,7 +291,7 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
               {triggering ? "Отправка..." : "Симулировать отчёт сейчас"}
             </button>
             <p className="mt-4 rounded-2xl bg-white/5 p-4 text-sm leading-relaxed text-stone-300">
-              Автоотчёты приходят каждые 2 часа. Кнопка выше — для проверки
+              Автоотчёты приходят каждый час. Кнопка выше — для проверки
               real-time без ожидания. Позже сюда подключим реальную прошивку
               ESP32.
             </p>
