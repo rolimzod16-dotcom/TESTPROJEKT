@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ApkDownloadButton } from "@/components/mobile/ApkDownloadButton";
-import { InstallBanner } from "@/components/mobile/InstallBanner";
 import { Logo } from "@/components/ui/Logo";
 
 export default function MobileAppPage() {
@@ -15,11 +14,7 @@ export default function MobileAppPage() {
           </p>
         </div>
 
-        <div className="mt-8">
-          <InstallBanner />
-        </div>
-
-        <div className="mt-6 space-y-3">
+        <div className="mt-8 space-y-3">
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-stone-400">
             или скачать APK
           </p>

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { InstallBanner } from "@/components/mobile/InstallBanner";
 
 type Report = {
   id: string;
@@ -168,6 +169,10 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-8">
+        <div className="mb-6 max-w-lg">
+          <InstallBanner />
+        </div>
+
         <section className="mb-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-3xl border border-amber-200/30 bg-white/75 p-6 shadow-lg backdrop-blur">
             <div className="mb-6 flex items-start justify-between gap-4">

@@ -34,9 +34,9 @@ export function InstallBanner() {
   if (deferredPrompt) {
     return (
       <div className="hm-card mb-4 border-amber-200 bg-gradient-to-br from-amber-50 to-white p-4">
-        <p className="font-bold text-amber-900">Установить приложение</p>
+        <p className="font-bold text-amber-900">Улей готов — установите приложение</p>
         <p className="mt-1 text-sm text-amber-800">
-          Добавьте на главный экран — будет как обычное приложение.
+          Добавьте HiveMonitor на главный экран, чтобы отчёты всегда были под рукой.
         </p>
         <div className="mt-3 flex gap-2">
           <button
@@ -63,7 +63,7 @@ export function InstallBanner() {
 
   return (
     <div className="hm-card-flat mb-4 p-4 text-sm text-stone-600">
-      <p className="font-bold text-stone-900">Установка через браузер</p>
+      <p className="font-bold text-stone-900">Установите приложение на телефон</p>
       <ul className="mt-2 list-disc space-y-1 pl-5 leading-relaxed">
         <li>
           <strong>iPhone:</strong> Safari → Поделиться → «На экран Домой»
