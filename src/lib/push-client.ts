@@ -41,6 +41,7 @@ export async function subscribeToPushNotifications() {
   const response = await fetch("/api/push/subscribe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(subscription.toJSON()),
   });
 

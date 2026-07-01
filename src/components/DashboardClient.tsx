@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { InstallBanner } from "@/components/mobile/InstallBanner";
 import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
 import { describeHiveStatusFromReadings } from "@/lib/simulator-realistic";
+import { showNativeReportNotification } from "@/lib/native-notifications";
 
 type Report = {
   id: string;
@@ -103,6 +104,10 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
         return [report, ...prev];
       });
       setLastSeenAt(report.createdAt);
+      void showNativeReportNotification(
+        "🐝 Новый отчёт от улья",
+        `T: ${report.temperature}°C · ${report.humidity}% · ${report.weight} кг`,
+      );
     });
 
     source.onerror = () => {
@@ -173,7 +178,7 @@ export function DashboardClient({ userName, hive }: DashboardClientProps) {
       <main className="mx-auto max-w-6xl px-6 py-8">
         <div className="mb-6 max-w-lg space-y-0">
           <InstallBanner />
-          <PushNotificationPrompt />
+          <PushNotificationPrompt hiveName={hive.name} />
         </div>
 
         <section className="mb-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">

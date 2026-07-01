@@ -6,6 +6,7 @@ import { InstallBanner } from "@/components/mobile/InstallBanner";
 import { PushNotificationPrompt } from "@/components/mobile/PushNotificationPrompt";
 import { MobileShell } from "@/components/mobile/MobileShell";
 import { describeHiveStatusFromReadings } from "@/lib/simulator-realistic";
+import { showNativeReportNotification } from "@/lib/native-notifications";
 
 type Report = {
   id: string;
@@ -82,6 +83,10 @@ export function MobileDashboard({ userName, hive }: MobileDashboardProps) {
         return [report, ...prev];
       });
       setLastSeenAt(report.createdAt);
+      void showNativeReportNotification(
+        "🐝 Новый отчёт от улья",
+        `T: ${report.temperature}°C · ${report.humidity}% · ${report.weight} кг`,
+      );
     });
     source.onerror = () => setLiveStatus("offline");
 
@@ -119,7 +124,7 @@ export function MobileDashboard({ userName, hive }: MobileDashboardProps) {
       onTabChange={setTab}
     >
       <InstallBanner />
-      <PushNotificationPrompt />
+      <PushNotificationPrompt hiveName={hive.name} />
 
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs shadow-sm">
