@@ -29,22 +29,32 @@ export default function DownloadPage() {
         </div>
 
         <div className="hm-card mt-6 border-amber-200 bg-amber-50 p-5 text-sm text-amber-950">
-          <p className="font-bold">Рекомендуем PWA</p>
+          <p className="font-bold">Телефон пишет «файл опасен»?</p>
           <p className="mt-2 leading-relaxed">
-            Откройте <strong>/app</strong> в Chrome → меню ⋮ → «Установить
-            приложение». Работает как APK, без предупреждений Android.
+            Это защита Android для APK не из Google Play. Нажмите{" "}
+            <strong>«Загрузить всё равно»</strong> — файл ~5 МБ скачивается с
+            вашего сайта.
           </p>
         </div>
 
         <div className="hm-card mt-4 p-5 text-sm text-stone-600">
-          <p className="font-bold text-stone-900">Когда APK будет готов</p>
+          <p className="font-bold text-stone-900">Инструкция</p>
           <ol className="mt-3 list-decimal space-y-2 pl-5 leading-relaxed">
             <li>Нажмите зелёную кнопку выше</li>
             <li>Если спросит — «Загрузить всё равно»</li>
+            <li>Дождитесь загрузки (~5 МБ)</li>
             <li>Откройте файл в «Загрузках»</li>
             <li>Разрешите установку из браузера</li>
             <li>Войдите с email и паролем</li>
           </ol>
+        </div>
+
+        <div className="hm-card-flat mt-4 p-5 text-sm text-stone-600">
+          <p className="font-bold text-amber-900">Без APK (рекомендуем)</p>
+          <p className="mt-2 leading-relaxed">
+            Войдите в аккаунт → на дашборде нажмите «Установить приложение».
+            Или Chrome → ⋮ → «Установить» на <strong>/app</strong>.
+          </p>
         </div>
 
         <p className="mt-6 text-center text-xs text-stone-400">

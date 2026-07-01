@@ -41,7 +41,9 @@ export function ApkDownloadButton({ variant = "primary" }: Props) {
             </span>
             <div>
               <p className="font-bold text-emerald-900">Скачать для Android</p>
-              <p className="text-sm text-emerald-700">APK — скоро будет готов</p>
+              <p className="text-sm text-emerald-700">
+                APK {APK_SIZE_MB} МБ — бесплатно
+              </p>
             </div>
           </>
         )}
@@ -54,11 +56,11 @@ export function ApkDownloadButton({ variant = "primary" }: Props) {
           aria-modal="true"
         >
           <div className="hm-card max-w-md w-full p-5 shadow-xl">
-            <p className="text-lg font-bold text-stone-900">Пока рекомендуем PWA</p>
+            <p className="text-lg font-bold text-stone-900">Перед загрузкой</p>
             <p className="mt-3 text-sm leading-relaxed text-stone-600">
-              APK-файл появится позже. Сейчас лучше установить через Chrome → ⋮ →
-              «Установить приложение» на странице <strong>/app</strong> — работает
-              так же, без Google Play.
+              Телефон может показать «файл опасен» — это нормально для APK не из
+              Google Play. HiveMonitor — ваше приложение. Нажмите{" "}
+              <strong>«Загрузить всё равно»</strong>.
             </p>
             <div className="mt-5 flex gap-2">
               <button

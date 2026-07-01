@@ -73,6 +73,12 @@ export default async function HomePage() {
               >
                 Уже есть аккаунт
               </Link>
+              <Link
+                href="/download"
+                className="rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-3 font-medium text-emerald-800 transition hover:bg-emerald-100"
+              >
+                📥 Скачать приложение (5 МБ)
+              </Link>
             </div>
           </div>
 
