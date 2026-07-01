@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  hive      Hive?
+}
+
+model Hive {
+  id        String       @id @default(cuid())
+  name      String
+  userId    String       @unique
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  esp32     Esp32Device?
+  reports   Report[]
+  createdAt DateTime     @default(now())
+}
+
+model Esp32Device {
+  id         String    @id @default(cuid())
+  hiveId     String    @unique
+  hive       Hive      @relation(fields: [hiveId], references: [id], onDelete: Cascade)
+  deviceId   String    @unique
+  status     String    @default("online")
+  lastSeenAt DateTime?
+  firmware   String    @default("sim-1.0.0")
+}
+
+model Report {
+  id             String   @id @default(cuid())
+  hiveId         String
+  hive           Hive     @relation(fields: [hiveId], references: [id], onDelete: Cascade)
+  temperature    Float
+  humidity       Float
+  weight         Float
+  soundLevel     Float
+  batteryPercent Float
+  createdAt      DateTime @default(now())
+
+  @@index([hiveId, createdAt])
+}
