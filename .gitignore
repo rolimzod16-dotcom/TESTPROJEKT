@@ -42,6 +42,15 @@ yarn-error.log*
 .tmp-otchet*
 .tmp-otchet.zip
 
+# mobile / apk build
+/.tools
+/mobile/node_modules
+/mobile/android/.gradle
+/mobile/android/app/build
+/mobile/android/build
+/mobile/android/capacitor-cordova-android-plugins/build
+/mobile/dist/*.apk
+
 # vercel
 .vercel
 

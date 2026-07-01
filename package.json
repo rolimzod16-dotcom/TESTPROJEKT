@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "copy-sql": "powershell -ExecutionPolicy Bypass -File scripts/copy-sql.ps1"
+    "copy-sql": "powershell -ExecutionPolicy Bypass -File scripts/copy-sql.ps1",
+    "android:build": "cd mobile && npm run android:build"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",

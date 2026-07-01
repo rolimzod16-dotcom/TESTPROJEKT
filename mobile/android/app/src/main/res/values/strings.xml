@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">HiveMonitor</string>
+    <string name="title_activity_main">HiveMonitor</string>
+    <string name="package_name">com.hivemonitor.app</string>
+    <string name="custom_url_scheme">com.hivemonitor.app</string>
+</resources>
