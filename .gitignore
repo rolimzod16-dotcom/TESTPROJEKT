@@ -39,6 +39,8 @@ yarn-error.log*
 
 # temp
 .tmp-doc*
+.tmp-otchet*
+.tmp-otchet.zip
 
 # vercel
 .vercel
