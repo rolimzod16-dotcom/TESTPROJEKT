@@ -14,6 +14,12 @@ export default async function HomePage() {
           <span className="text-lg font-bold text-stone-900">HiveMonitor</span>
         </div>
         <div className="flex gap-3">
+          <Link
+            href="/app"
+            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-amber-50"
+          >
+            📱 Приложение
+          </Link>
           {session ? (
             <Link
               href="/dashboard"

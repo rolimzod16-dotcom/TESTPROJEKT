@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
 :root {
+  --hm-bg: #f5efe6;
+  --hm-surface: #ffffff;
+  --hm-text: #1c1917;
+  --hm-text-muted: #78716c;
+  --hm-primary: #f59e0b;
+  --hm-primary-dark: #d97706;
+  --hm-border: #e7e5e4;
+  --hm-shadow: 0 4px 24px rgba(245, 158, 11, 0.1);
   --background: #f5efe6;
   --foreground: #1c1917;
 }
@@ -16,4 +24,82 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+input,
+select,
+textarea,
+button {
+  font-size: 16px;
+}
+
+.hm-page {
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, #fff7d6 0%, transparent 55%),
+    linear-gradient(180deg, #fffbeb 0%, var(--hm-bg) 100%);
+}
+
+.hm-card {
+  border-radius: 1.25rem;
+  border: 1px solid var(--hm-border);
+  background: var(--hm-surface);
+  box-shadow: var(--hm-shadow);
+}
+
+.hm-card-flat {
+  border-radius: 1.25rem;
+  border: 1px solid var(--hm-border);
+  background: var(--hm-surface);
+}
+
+.hm-btn {
+  border-radius: 0.875rem;
+  transition: all 0.15s ease;
+}
+
+.hm-btn-primary {
+  background: var(--hm-primary);
+  color: var(--hm-text);
+  font-weight: 600;
+}
+
+.hm-btn-primary:hover {
+  background: #fbbf24;
+}
+
+.hm-input {
+  width: 100%;
+  border-radius: 0.875rem;
+  border: 1px solid var(--hm-border);
+  background: white;
+  padding: 0.75rem 1rem;
+  color: var(--hm-text);
+  outline: none;
+}
+
+.hm-input:focus {
+  box-shadow: 0 0 0 2px #fbbf24;
+}
+
+.hm-link-card {
+  display: block;
+  border-radius: 1.25rem;
+  border: 1px solid var(--hm-border);
+  background: white;
+  box-shadow: var(--hm-shadow);
+  transition: transform 0.15s ease;
+}
+
+.hm-link-card:active {
+  transform: scale(0.98);
 }

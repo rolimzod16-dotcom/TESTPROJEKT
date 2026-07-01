@@ -6,9 +6,15 @@ import { FormEvent, useState } from "react";
 
 type AuthFormProps = {
   mode: "login" | "register";
+  redirectTo?: string;
+  variant?: "desktop" | "mobile";
 };
 
-export function AuthForm({ mode }: AuthFormProps) {
+export function AuthForm({
+  mode,
+  redirectTo = "/dashboard",
+  variant = "desktop",
+}: AuthFormProps) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +23,14 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
 
   const isRegister = mode === "register";
+  const isMobile = variant === "mobile";
+  const altHref = isMobile
+    ? isRegister
+      ? "/app/login"
+      : "/app/register"
+    : isRegister
+      ? "/login"
+      : "/register";
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -36,7 +50,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
-      router.push("/dashboard");
+      router.push(redirectTo);
       router.refresh();
     } catch {
       setError("Ошибка сети. Попробуйте снова.");
@@ -45,22 +59,34 @@ export function AuthForm({ mode }: AuthFormProps) {
     }
   }
 
+  const cardClass = isMobile
+    ? "hm-card p-6"
+    : "rounded-3xl border border-amber-200/20 bg-white/80 p-8 shadow-2xl shadow-amber-900/10 backdrop-blur";
+
   return (
     <div className="mx-auto w-full max-w-md">
-      <div className="rounded-3xl border border-amber-200/20 bg-white/80 p-8 shadow-2xl shadow-amber-900/10 backdrop-blur">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-400 text-2xl">
-            🐝
+      <div className={cardClass}>
+        {!isMobile && (
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-400 text-2xl">
+              🐝
+            </div>
+            <h1 className="text-2xl font-bold text-stone-900">
+              {isRegister ? "Регистрация" : "Вход"}
+            </h1>
+            <p className="mt-2 text-sm text-stone-600">
+              {isRegister
+                ? "Создайте аккаунт и получите личный улей с ESP32"
+                : "Войдите, чтобы смотреть отчёты вашего улья"}
+            </p>
           </div>
-          <h1 className="text-2xl font-bold text-stone-900">
+        )}
+
+        {isMobile && (
+          <h1 className="mb-6 text-center text-xl font-bold text-stone-900">
             {isRegister ? "Регистрация" : "Вход"}
           </h1>
-          <p className="mt-2 text-sm text-stone-600">
-            {isRegister
-              ? "Создайте аккаунт и получите личный улей с ESP32"
-              : "Войдите, чтобы смотреть отчёты вашего улья"}
-          </p>
-        </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {isRegister && (
@@ -72,7 +98,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-stone-900 outline-none ring-amber-400 transition focus:ring-2"
+                className="hm-input"
                 placeholder="Алексей"
                 required
               />
@@ -87,7 +113,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-stone-900 outline-none ring-amber-400 transition focus:ring-2"
+              className="hm-input"
               placeholder="you@example.com"
               required
             />
@@ -101,7 +127,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-stone-900 outline-none ring-amber-400 transition focus:ring-2"
+              className="hm-input"
               placeholder="минимум 6 символов"
               minLength={6}
               required
@@ -117,7 +143,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-amber-500 px-4 py-3 font-semibold text-stone-900 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="hm-btn hm-btn-primary w-full py-3 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading
               ? "Подождите..."
@@ -130,7 +156,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <p className="mt-6 text-center text-sm text-stone-600">
           {isRegister ? "Уже есть аккаунт?" : "Нет аккаунта?"}{" "}
           <Link
-            href={isRegister ? "/login" : "/register"}
+            href={altHref}
             className="font-semibold text-amber-700 hover:text-amber-600"
           >
             {isRegister ? "Войти" : "Зарегистрироваться"}

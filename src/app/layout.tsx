@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -15,7 +15,26 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "HiveMonitor — мониторинг улья с ESP32",
   description:
-    "Личный улей с симуляцией ESP32. Отчёты каждые 2 часа в реальном времени.",
+    "Личный улей с симуляцией ESP32. Отчёты в реальном времени. Приложение для телефона.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "HiveMonitor",
+  },
+  icons: {
+    icon: "/icons/icon-192.svg",
+    apple: "/icons/icon-192.svg",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#f59e0b",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

@@ -7,18 +7,22 @@ const secret = new TextEncoder().encode(
   process.env.JWT_SECRET ?? "hive-monitor-dev-secret",
 );
 
-const protectedPaths = ["/dashboard"];
+const protectedPaths = [
+  { path: "/dashboard", login: "/login" },
+  { path: "/app/dashboard", login: "/app/login" },
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (!protectedPaths.some((path) => pathname.startsWith(path))) {
+  const match = protectedPaths.find((item) => pathname.startsWith(item.path));
+  if (!match) {
     return NextResponse.next();
   }
 
   const token = request.cookies.get(COOKIE_NAME)?.value;
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL(match.login, request.url));
   }
 
   try {
@@ -30,5 +34,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/app/dashboard/:path*"],
 };
